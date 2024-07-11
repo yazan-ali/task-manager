@@ -1,6 +1,8 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
+import { TextField, Button, Typography } from '@mui/material';
+import TaskFormWrapper from './TaskFormWrapper';
 
 const TaskForm = () => {
     const [title, setTitle] = useState('');
@@ -21,26 +23,32 @@ const TaskForm = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div>
-                <label>Title:</label>
-                <input
-                    type="text"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    placeholder="Title"
-                    required
-                />
-            </div>
-            <div>
-                <label>Description:</label>
-                <textarea
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Description"
-                    required
-                />
-            </div>
+        <TaskFormWrapper handleSubmit={handleSubmit}>
+            <Typography
+                className="form-title">
+                Create new task
+            </Typography>
+            <TextField
+                label="Title"
+                variant="outlined"
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="Title"
+                required
+                fullWidth
+            />
+            <TextField
+                label="Description"
+                variant="outlined"
+                type="text"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Description"
+                required
+                fullWidth
+                multiline
+            />
             <div>
                 <label>Due Date:</label>
                 <input
@@ -49,8 +57,8 @@ const TaskForm = () => {
                     onChange={(e) => setDueDate(e.target.value)}
                 />
             </div>
-            <button type="submit">Create Task</button>
-        </form>
+            <Button type="submit" variant="contained">Create Task</Button>
+        </TaskFormWrapper>
     );
 };
 

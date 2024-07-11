@@ -11,7 +11,7 @@ function Navbar() {
     return (
         <nav className="navbar flex justify-between items-center bg-white p-5">
             <div className='flex items-center'>
-                <Link to="/tasks" className="brand-name font-semibold">Task Manager</Link>
+                <Link to="/tasks" className="logo text-2xl font-semibold">Task Manager</Link>
                 <div className='nav-links ml-9 mt-1'>
                     <Link to="/tasks" className="">Home</Link>
                     <Link to="/create" className="">Create Task</Link>
@@ -19,7 +19,7 @@ function Navbar() {
                 </div>
             </div>
             <div className="flex items-center gap-5">
-                <TextField className="search" variant="outlined" size="small" placeholder="Search" />
+                <TextField className="search" variant="outlined" size="small" label="Search" />
                 <div className='nav-links'>
                     {
                         user ? (
@@ -32,7 +32,7 @@ function Navbar() {
                         ) : (
                             <>
                                 <Link to="/login">Login</Link>
-                                <Link to="/signup">Signup</Link>
+                                <Link to="/signup">Sign up</Link>
                             </>
                         )
                     }

@@ -1,6 +1,22 @@
-@import './variables.scss';
+@import './helpers.scss';
 
 a {
     color: $link;
     text-decoration: underline;
+}
+
+form {
+    box-shadow: $box-shadow;
+}
+
+.MuiTypography-root {
+    &.form-title {
+        font-size: toRem(18);
+        font-weight: 600;
+        color: $gray;
+    }
+}
+
+button.MuiButtonBase-root {
+    text-transform: capitalize;
 }

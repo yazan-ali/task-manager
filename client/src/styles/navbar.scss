@@ -1,20 +1,18 @@
-@import './variables.scss';
+@import './helpers.scss';
 
 .navbar {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-
-    .brand-name {
-        font-size: 1.5em;
-    }
+    box-shadow: 0 toRem(4) toRem(6) rgba(0, 0, 0, 0.2);
 
     .nav-links {
         display: flex;
-        gap: 20px;
+        gap: toRem(20);
     }
+
     a {
         text-decoration: none;
         color: $gray;
         font-weight: bold;
+
         &:hover {
             color: $link;
         }

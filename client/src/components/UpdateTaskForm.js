@@ -2,8 +2,9 @@ import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { TaskContext } from '../context/TaskContext';
 import { AuthContext } from '../context/AuthContext';
+import { TextField, Button, Dialog, DialogTitle } from '@mui/material';
 
-const UpdateTaskForm = ({ taskId, onUpdateSuccess }) => {
+const UpdateTaskForm = ({ taskId, updateFormOpen, closeDialog, onUpdateSuccess }) => {
     const { tasks, setTasks } = useContext(TaskContext);
     const { user } = useContext(AuthContext);
     const [title, setTitle] = useState('');
@@ -38,37 +39,50 @@ const UpdateTaskForm = ({ taskId, onUpdateSuccess }) => {
         }
     };
 
+    // const handleCloseDialog = () => {
+    //     handleClose(false);
+    // };
+
     return (
-        <form onSubmit={updateTask}>
-            <div>
-                <label>Title:</label>
-                <input
+        <Dialog
+            onClose={closeDialog}
+            open={updateFormOpen}
+            fullWidth
+        >
+            <DialogTitle>Update task</DialogTitle>
+            <form onSubmit={updateTask} className='flex flex-col gap-8 p-10 shadow-none'>
+                <TextField
+                    label="Title"
+                    variant="outlined"
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="Title"
                     required
+                    fullWidth
                 />
-            </div>
-            <div>
-                <label>Description:</label>
-                <textarea
+                <TextField
+                    label="Description"
+                    variant="outlined"
+                    type="text"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    required
                     placeholder="Description"
+                    required
+                    fullWidth
+                    multiline
                 />
-            </div>
-            <div>
-                <label>Due Date:</label>
-                <input
-                    type="date"
-                    value={dueDate || ""}
-                    onChange={(e) => setDueDate(e.target.value)}
-                />
-            </div>
-            <button type="submit">Update Task</button>
-        </form>
+                <div>
+                    <label>Due Date:</label>
+                    <input
+                        type="date"
+                        value={dueDate}
+                        onChange={(e) => setDueDate(e.target.value)}
+                    />
+                </div>
+                <Button type="submit" variant="contained">Update Task</Button>
+            </form>
+        </Dialog>
     );
 };
 

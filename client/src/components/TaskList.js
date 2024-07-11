@@ -8,9 +8,19 @@ const TaskList = () => {
     const { tasks, setTasks } = useContext(TaskContext);
     const { user } = useContext(AuthContext);
     const [updatingTaskId, setUpdatingTaskId] = useState(null);
+    const [updateFormOpen, setUpdateFormOpen] = useState(false);
 
     const editTask = (id) => {
         setUpdatingTaskId(id)
+        setUpdateFormOpen(true);
+    }
+
+    const closeDialog = () => {
+        setUpdateFormOpen(false);
+    };
+
+    const onUpdateSuccess = () => {
+        closeDialog();
     }
 
     const deleteTask = async (id) => {
@@ -39,7 +49,9 @@ const TaskList = () => {
             {updatingTaskId && (
                 <UpdateTaskForm
                     taskId={updatingTaskId}
-                    onUpdateSuccess={() => setUpdatingTaskId(null)}
+                    updateFormOpen={updateFormOpen}
+                    closeDialog={closeDialog}
+                    onUpdateSuccess={onUpdateSuccess}
                 />
             )}
         </div>

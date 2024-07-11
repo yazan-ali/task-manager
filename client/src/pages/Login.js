@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import AuthForm from '../components/AuthForm';
+import AuthFormWrapper from '../components/AuthFormWrapper';
 import { TextField, Button, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
@@ -24,7 +24,7 @@ const Login = () => {
     };
 
     return (
-        <AuthForm handleSubmit={handleSubmit}>
+        <AuthFormWrapper handleSubmit={handleSubmit}>
             <Typography variant="body1" gutterBottom>
                 Please login to see your tasks list
             </Typography>
@@ -50,7 +50,7 @@ const Login = () => {
                 <Button type="submit" variant="contained">Log In</Button>
                 <Link className='link' to="/signup">Create an account</Link>
             </div>
-        </AuthForm>
+        </AuthFormWrapper>
     );
 };
 
