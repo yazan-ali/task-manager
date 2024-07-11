@@ -1,10 +1,10 @@
-import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import AuthRoute from './components/AuthRoute'
 import TaskList from './components/TaskList';
 import TaskForm from './components/TaskForm';
+import Navbar from './components/Navbar';
 import { AuthProvider } from './context/AuthContext';
 import { TaskProvider } from './context/TaskContext';
 
@@ -13,12 +13,13 @@ const App = () => {
     <AuthProvider>
       <TaskProvider>
         <Router>
+          <Navbar />
           <Routes >
             <Route path="/tasks" element={<AuthRoute />}>
               <Route path="/tasks" element={<TaskList />} />
             </Route>
-            <Route path="/create-task" element={<AuthRoute />}>
-              <Route path="/create-task" element={<TaskForm />} />
+            <Route path="/create" element={<AuthRoute />}>
+              <Route path="/create" element={<TaskForm />} />
             </Route>
             <Route path="/signup" element={<AuthRoute loginRoute />}>
               <Route path="/signup" element={<Signup />} />
