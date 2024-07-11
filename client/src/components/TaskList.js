@@ -6,7 +6,7 @@ import UpdateTaskForm from '../components/UpdateTaskForm';
 
 const TaskList = () => {
     const { tasks, setTasks } = useContext(TaskContext);
-    const { user, logout } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     const [updatingTaskId, setUpdatingTaskId] = useState(null);
 
     const editTask = (id) => {
@@ -26,7 +26,6 @@ const TaskList = () => {
 
     return (
         <div>
-            <button onClick={() => logout()}>Logout</button>
             <h2>Task List</h2>
             <ul>
                 {tasks.map((task) => (
