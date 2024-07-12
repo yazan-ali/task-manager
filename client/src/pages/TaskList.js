@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 import { TaskContext } from '../context/TaskContext';
 import UpdateTaskForm from '../components/UpdateTaskForm';
 import Task from '../components/Task';
@@ -6,6 +7,7 @@ import { Container, Divider } from '@mui/material';
 import TaskBar from '../components/TaskBar';
 
 const TaskList = () => {
+    const { user } = useContext(AuthContext);
     const { tasks } = useContext(TaskContext);
     const [updatingTaskId, setUpdatingTaskId] = useState(null);
     const [updateFormOpen, setUpdateFormOpen] = useState(false);
@@ -21,12 +23,13 @@ const TaskList = () => {
 
     const onUpdateSuccess = () => {
         closeDialog();
+        setUpdatingTaskId(null)
     }
 
     return (
         <section className='my-14 text-gray-700'>
             <Container maxWidth="lg">
-                <h1 className='text-5xl'>Your List of Tasks</h1>
+                <h1 className='capitalize text-4xl'>Hi {user.username}, here are your list of tasks</h1>
                 <TaskBar />
                 <Divider sx={{ backgroundColor: "#C6C6C6" }} />
                 <ul className='task-list flex flex-wrap gap-6 mt-6'>

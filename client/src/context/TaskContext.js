@@ -12,22 +12,24 @@ export const TaskProvider = ({ children }) => {
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
-        const getTasks = async () => {
-            try {
-                const res = await axios.get('http://localhost:5000/tasks', {
-                    headers: { Authorization: `Bearer ${user.token}` },
-                });
-                dispatch({ type: GET_TASKS, payload: res.data });
-            } catch (error) {
-                console.error('An error occurred while fetching tasks: ', error);
-            }
-        };
         if (user) {
             getTasks();
         } else {
             dispatch({ type: GET_TASKS, payload: [] });
         }
     }, [user]);
+
+    const getTasks = async (filter, sortBy) => {
+        try {
+            const res = await axios.get('http://localhost:5000/tasks', {
+                params: { sortBy, filter },
+                headers: { Authorization: `Bearer ${user.token}` },
+            });
+            dispatch({ type: GET_TASKS, payload: res.data });
+        } catch (error) {
+            console.error('An error occurred while fetching tasks: ', error);
+        }
+    };
 
     const createTask = async (task) => {
         try {
@@ -63,7 +65,7 @@ export const TaskProvider = ({ children }) => {
     };
 
     return (
-        <TaskContext.Provider value={{ tasks: state.tasks, createTask, updateTask, deleteTask }}>
+        <TaskContext.Provider value={{ tasks: state.tasks, getTasks, createTask, updateTask, deleteTask }}>
             {children}
         </TaskContext.Provider>
     );

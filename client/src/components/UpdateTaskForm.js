@@ -6,23 +6,25 @@ import dayjs from 'dayjs';
 
 const UpdateTaskForm = ({ taskId, updateFormOpen, closeDialog, onUpdateSuccess }) => {
     const { tasks, updateTask } = useContext(TaskContext);
+    const [task, setTask] = useState(null);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [dueDate, setDueDate] = useState(null);
 
     useEffect(() => {
-        const task = tasks.find((t) => t._id === taskId);
+        setTask(tasks.find((t) => t._id === taskId));
         if (task) {
             setTitle(task.title);
             setDescription(task.description);
             setDueDate(dayjs(task.dueDate) || null);
         }
-    }, [taskId, tasks]);
+    }, [task, taskId, tasks]);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        await updateTask({ _id: taskId, title, description, dueDate });
+    const handleSubmit = async (evt) => {
+        evt.preventDefault();
+        await updateTask({ ...task, title, description, dueDate });
         onUpdateSuccess();
+        setTask(null)
     };
 
     return (

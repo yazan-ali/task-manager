@@ -1,9 +1,13 @@
 const Task = require('../models/Task');
+const { getQueryItems } = require('../utils/getQueryItems');
 
 const getTasks = async (req, res) => {
+    const { filter, sortBy } = req.query;
     const userId = req.user.id;
+    const { query, sortQuery } = getQueryItems(filter, sortBy, userId)
+
     try {
-        const tasks = await Task.find({ user: userId });
+        const tasks = await Task.find(query).sort(sortQuery);
         res.json(tasks);
     } catch (error) {
         res.status(400).json({ error: error.message });

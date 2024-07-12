@@ -10,8 +10,8 @@ const TaskForm = () => {
     const [dueDate, setDueDate] = useState(null);
     const { createTask } = useContext(TaskContext);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async (evt) => {
+        evt.preventDefault();
         await createTask({ title, description, dueDate });
     };
 

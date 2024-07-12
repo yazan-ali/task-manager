@@ -6,21 +6,31 @@ import { Link } from 'react-router-dom';
 
 function TaskBar() {
 
-    const { tasks } = useContext(TaskContext);
+    const { tasks, getTasks } = useContext(TaskContext);
     const [sortBy, setSortBy] = useState('');
     const [filterBy, setFilterBy] = useState('');
 
-    const handleSortByChange = (event) => {
-        setSortBy(event.target.value);
+    const handleSortByChange = (evt) => {
+        const sortBy = evt.target.value;
+        setSortBy(sortBy);
+        getTasks(filterBy, sortBy)
     };
 
-    const handleFilterByChange = (event) => {
-        setFilterBy(event.target.value);
+    const handleFilterByChange = (evt) => {
+        const filter = evt.target.value;
+        setFilterBy(filter);
+        getTasks(filter, sortBy);
     };
 
     return (
         <div className='task-list__bar flex flex-wrap justify-between gap-4 items-center mt-8 pb-4'>
-            <span className='text-xl'>You have {tasks.length} tasks to complete</span>
+            {/* <span className='text-xl'>You have {tasks.length} tasks to complete</span> */}
+            <Button variant='contained'>
+                <Link className='flex items-center gap-2 text-inherit no-underline' to="/create">
+                    create new task
+                    <AddBoxIcon sx={{ color: "inherit" }} />
+                </Link>
+            </Button>
             <div className="task-list__actions">
                 <FormControl variant='standard' sx={{ m: 1, minWidth: 150 }}>
                     <InputLabel id="sort-by">Sort By</InputLabel>
@@ -29,9 +39,10 @@ function TaskBar() {
                         value={sortBy}
                         onChange={handleSortByChange}
                     >
+                        <MenuItem value="">Sort By</MenuItem>
                         <MenuItem value="created">Created At</MenuItem>
-                        <MenuItem value="update">Last Modify</MenuItem>
-                        <MenuItem value="dueDate">Due Date</MenuItem>
+                        <MenuItem value="modified">Last Modify</MenuItem>
+                        <MenuItem value="duedate">Due Date</MenuItem>
                     </Select>
                 </FormControl>
                 <FormControl variant='standard' sx={{ m: 1, minWidth: 150 }}>
@@ -42,17 +53,11 @@ function TaskBar() {
                         onChange={handleFilterByChange}
                     >
                         <MenuItem value="all">All</MenuItem>
-                        <MenuItem value="completed">Complted</MenuItem>
-                        <MenuItem value="not complted">Not completed</MenuItem>
+                        <MenuItem value="completed">Completed</MenuItem>
+                        <MenuItem value="uncompleted">Not completed</MenuItem>
                     </Select>
                 </FormControl>
             </div>
-            <Button variant='contained' color="success">
-                <Link className='flex items-center gap-2 text-inherit no-underline' to="/create">
-                    Create
-                    <AddBoxIcon sx={{ color: "inherit" }} />
-                </Link>
-            </Button>
         </div>
     )
 }
