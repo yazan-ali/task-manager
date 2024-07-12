@@ -2,6 +2,8 @@ import React, { createContext, useEffect, useContext, useReducer } from 'react';
 import { GET_TASKS, CREATE_TASK, UPDATE_TASK, DELETE_TASK } from './TaskActionTypes';
 import { taskReducer } from './TaskReducer';
 import { AuthContext } from '../context/AuthContext';
+import useSnackbar from '../hooks/useSnackbar';
+import CustomSnackbar from '../components/CustomSnackbar';
 import axios from 'axios';
 
 export const TaskContext = createContext();
@@ -10,6 +12,8 @@ export const TaskProvider = ({ children }) => {
     const initialState = { tasks: [] };
     const [state, dispatch] = useReducer(taskReducer, initialState);
     const { user } = useContext(AuthContext);
+
+    const { snackbar, showSnackbar, closeSnackbar } = useSnackbar();
 
     useEffect(() => {
         if (user) {
@@ -27,7 +31,7 @@ export const TaskProvider = ({ children }) => {
             });
             dispatch({ type: GET_TASKS, payload: res.data });
         } catch (error) {
-            console.error('An error occurred while fetching tasks: ', error);
+            showSnackbar("An error occurred while fetching tasks", "error")
         }
     };
 
@@ -37,8 +41,9 @@ export const TaskProvider = ({ children }) => {
                 headers: { Authorization: `Bearer ${user.token}` },
             });
             dispatch({ type: CREATE_TASK, payload: res.data });
+            showSnackbar("Task created successfully", "success");
         } catch (error) {
-            console.error('An error occurred while creating task: ', error);
+            showSnackbar(error.response.data.error, "error")
         }
     };
 
@@ -48,8 +53,9 @@ export const TaskProvider = ({ children }) => {
                 headers: { Authorization: `Bearer ${user.token}` },
             });
             dispatch({ type: UPDATE_TASK, payload: res.data });
+            showSnackbar("Task updated successfully", "success")
         } catch (error) {
-            console.error('An error occurred while updating task: ', error);
+            showSnackbar(error.response.data.error, "error")
         }
     };
 
@@ -59,14 +65,16 @@ export const TaskProvider = ({ children }) => {
                 headers: { Authorization: `Bearer ${user.token}` },
             });
             dispatch({ type: DELETE_TASK, payload: id });
+            showSnackbar("Task deleted successfully", "success");
         } catch (error) {
-            console.error('An error occurred while deleting task: ', error);
+            showSnackbar("An error occurred while deleting task", "error")
         }
     };
 
     return (
         <TaskContext.Provider value={{ tasks: state.tasks, getTasks, createTask, updateTask, deleteTask }}>
             {children}
+            <CustomSnackbar snackbar={snackbar} closeSnackbar={closeSnackbar} />
         </TaskContext.Provider>
     );
 };

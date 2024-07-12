@@ -15,13 +15,13 @@ const Signup = () => {
     const handleSubmit = async (evt) => {
         evt.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/users/signup', { username, password });
-            login(response.data.token);
+            const res = await axios.post('http://localhost:5000/users/signup', { username, password });
+            if (res.data.token) {
+                login(res.data.token);
+            }
             navigate('/tasks');
-            // alert('User created successfully');
         } catch (error) {
-            console.log(error)
-            // alert('Error creating user');
+            console.log(error.response.data.error)
         }
     };
 

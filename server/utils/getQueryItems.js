@@ -19,4 +19,4 @@ const getQueryItems = (filter, sortBy, userId) => {
     return { query, sortQuery }
 }
 
-module.exports = { getQueryItems };
+module.exports = getQueryItems;

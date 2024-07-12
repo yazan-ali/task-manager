@@ -24,3 +24,11 @@ button.MuiButtonBase-root {
 .MuiSvgIcon-root {
     color: $gray;
 }
+
+.MuiSnackbar-root {
+
+    .MuiAlert-message,
+    .MuiSvgIcon-root {
+        color: $white;
+    }
+}

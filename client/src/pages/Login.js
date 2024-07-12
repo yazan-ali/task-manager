@@ -15,11 +15,13 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/users/login', { username, password });
-            login(response.data.token);
+            const res = await axios.post('http://localhost:5000/users/login', { username, password });
+            if (res.data.token) {
+                login(res.data.token);
+            }
             navigate('/tasks');
         } catch (error) {
-            // alert('Error logging in');
+            console.log(error.response.data.error)
         }
     };
 
@@ -43,8 +45,9 @@ const Login = () => {
                 type="password"
                 value={password}
                 onChange={(evt) => setPassword(evt.target.value)}
-                fullWidth
                 required
+                fullWidth
+
             />
             <div className='w-full flex justify-between items-center'>
                 <Button type="submit" variant="contained">Log In</Button>

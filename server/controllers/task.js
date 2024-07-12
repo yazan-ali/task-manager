@@ -1,5 +1,6 @@
 const Task = require('../models/Task');
-const { getQueryItems } = require('../utils/getQueryItems');
+const getQueryItems = require('../utils/getQueryItems');
+const { validateTaskInputs } = require('../utils/validators');
 
 const getTasks = async (req, res) => {
     const { filter, sortBy } = req.query;
@@ -15,11 +16,16 @@ const getTasks = async (req, res) => {
 };
 
 const createTask = async (req, res) => {
-    const { title, description, dueDate, priority } = req.body;
+    const { title, description, dueDate } = req.body;
     const userId = req.user.id;
-    // TODO: check if there is a logged in user
+
+    if (!userId) {
+        return res.status(403).json({ error: "Unauthorized" })
+    }
+
     try {
-        const task = new Task({ title, description, dueDate, priority, user: userId });
+        validateTaskInputs(title, description, dueDate);
+        const task = new Task({ title, description, dueDate, user: userId });
         await task.save();
         res.status(201).json(task);
     } catch (error) {
@@ -29,10 +35,12 @@ const createTask = async (req, res) => {
 
 const updateTask = async (req, res) => {
     const { id } = req.params;
-    const { title, description, completed, dueDate, priority } = req.body;
+    const { title, description, completed, dueDate } = req.body;
     const userId = req.user.id;
 
     try {
+        validateTaskInputs(title, description, dueDate);
+
         const task = await Task.findById(id);
         if (!task) return res.status(404).json({ error: 'Task not found' });
 
@@ -45,7 +53,6 @@ const updateTask = async (req, res) => {
         task.description = description;
         task.completed = completed;
         task.dueDate = dueDate;
-        task.priority = priority;
 
         await task.save();
         res.json(task);
