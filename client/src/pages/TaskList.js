@@ -10,7 +10,7 @@ const TaskList = () => {
     const [updatingTaskId, setUpdatingTaskId] = useState(null);
     const [updateFormOpen, setUpdateFormOpen] = useState(false);
 
-    const editTask = (id) => {
+    const openDialog = (id) => {
         setUpdatingTaskId(id)
         setUpdateFormOpen(true);
     }
@@ -41,7 +41,7 @@ const TaskList = () => {
                 {tasks.map((task) => (
                     <li key={task._id}>
                         {task.title} - {task.description} {task.dueDate && ` - ${task.dueDate}`}
-                        <button onClick={() => editTask(task._id)}>Edit</button>
+                        <button onClick={() => openDialog(task._id)}>Edit</button>
                         <button onClick={() => deleteTask(task._id)}>Delete</button>
                     </li>
                 ))}

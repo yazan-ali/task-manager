@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import TaskList from './pages/TaskList';
+import TaskForm from './pages/TaskForm';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import AuthRoute from './components/AuthRoute'
-import TaskList from './components/TaskList';
-import TaskForm from './components/TaskForm';
 import Navbar from './components/Navbar';
 import { AuthProvider } from './context/AuthContext';
 import { TaskProvider } from './context/TaskContext';

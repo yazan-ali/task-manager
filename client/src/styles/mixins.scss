@@ -1,0 +1,67 @@
+@use "sass:map";
+
+@mixin media($breakpoint) {
+
+    @if $breakpoint =="xs" {
+        @media (min-width: 320px) {
+            @content;
+        }
+    }
+
+    @if $breakpoint =="sm" {
+        @media (min-width: 460px) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint =="md" {
+        @media (min-width: 768px) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint =="lg" {
+        @media (min-width: 1024px) {
+            @content;
+        }
+    }
+
+    @else {
+        @media (min-width: $breakpoint) {
+            @content;
+        }
+    }
+}
+
+@mixin media-max($breakpoint) {
+
+    @if $breakpoint =="xs" {
+        @media (max-width: 320px) {
+            @content;
+        }
+    }
+
+    @if $breakpoint =="sm" {
+        @media (max-width: 460px) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint =="md" {
+        @media (max-width: 768px) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint =="lg" {
+        @media (max-width: 1024px) {
+            @content;
+        }
+    }
+
+    @else {
+        @media (max-width: $breakpoint) {
+            @content;
+        }
+    }
+}

@@ -25,7 +25,7 @@ const Login = () => {
 
     return (
         <AuthFormWrapper handleSubmit={handleSubmit}>
-            <Typography variant="body1" gutterBottom>
+            <Typography className="form-title">
                 Please login to see your tasks list
             </Typography>
             <TextField

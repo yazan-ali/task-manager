@@ -27,7 +27,7 @@ const Signup = () => {
 
     return (
         <AuthFormWrapper handleSubmit={handleSubmit}>
-            <Typography variant="body1" gutterBottom>
+            <Typography className="form-title">
                 Create an account to start managing your tasks
             </Typography>
             <TextField

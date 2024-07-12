@@ -39,10 +39,6 @@ const UpdateTaskForm = ({ taskId, updateFormOpen, closeDialog, onUpdateSuccess }
         }
     };
 
-    // const handleCloseDialog = () => {
-    //     handleClose(false);
-    // };
-
     return (
         <Dialog
             onClose={closeDialog}

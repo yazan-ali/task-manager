@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import { TextField, Button, Typography } from '@mui/material';
-import TaskFormWrapper from './TaskFormWrapper';
+import TaskFormWrapper from '../components/TaskFormWrapper';
 
 const TaskForm = () => {
     const [title, setTitle] = useState('');
@@ -10,7 +10,7 @@ const TaskForm = () => {
     const [dueDate, setDueDate] = useState('');
     const { user } = useContext(AuthContext);
 
-    const handleSubmit = async (e) => {
+    const createTask = async (e) => {
         e.preventDefault();
         try {
             await axios.post('http://localhost:5000/tasks',
@@ -23,7 +23,7 @@ const TaskForm = () => {
     };
 
     return (
-        <TaskFormWrapper handleSubmit={handleSubmit}>
+        <TaskFormWrapper handleSubmit={createTask}>
             <Typography
                 className="form-title">
                 Create new task
