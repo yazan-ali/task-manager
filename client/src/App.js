@@ -7,29 +7,33 @@ import AuthRoute from './components/AuthRoute'
 import Navbar from './components/Navbar';
 import { AuthProvider } from './context/AuthContext';
 import { TaskProvider } from './context/TaskContext';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 const App = () => {
   return (
     <AuthProvider>
       <TaskProvider>
-        <Router>
-          <Navbar />
-          <Routes >
-            <Route path="/tasks" element={<AuthRoute />}>
-              <Route path="/tasks" element={<TaskList />} />
-            </Route>
-            <Route path="/create" element={<AuthRoute />}>
-              <Route path="/create" element={<TaskForm />} />
-            </Route>
-            <Route path="/signup" element={<AuthRoute loginRoute />}>
-              <Route path="/signup" element={<Signup />} />
-            </Route>
-            <Route path="/login" element={<AuthRoute loginRoute />}>
-              <Route path="/login" element={<Login />} />
-            </Route>
-            <Route path="/" element={<Navigate to="/tasks" />} />
-          </Routes>
-        </Router>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <Router>
+            <Navbar />
+            <Routes >
+              <Route path="/tasks" element={<AuthRoute />}>
+                <Route path="/tasks" element={<TaskList />} />
+              </Route>
+              <Route path="/create" element={<AuthRoute />}>
+                <Route path="/create" element={<TaskForm />} />
+              </Route>
+              <Route path="/signup" element={<AuthRoute loginRoute />}>
+                <Route path="/signup" element={<Signup />} />
+              </Route>
+              <Route path="/login" element={<AuthRoute loginRoute />}>
+                <Route path="/login" element={<Login />} />
+              </Route>
+              <Route path="/" element={<Navigate to="/tasks" />} />
+            </Routes>
+          </Router>
+        </LocalizationProvider>
       </TaskProvider>
     </AuthProvider>
   );

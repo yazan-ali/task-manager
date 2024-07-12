@@ -1,0 +1,17 @@
+@import './helpers.scss';
+
+.task-list-wrapper {
+    min-height: calc(100vh - 70px);
+}
+
+.task-list {
+    &__task {
+        box-shadow: $box-shadow;
+        max-width: calc(50% - 24px);
+        transition: background-color 0.2s ease-in-out;
+
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.07);
+        }
+    }
+}

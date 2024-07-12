@@ -1,12 +1,12 @@
 import React, { useState, useContext } from 'react';
-import axios from 'axios';
-import { AuthContext } from '../context/AuthContext';
 import { TaskContext } from '../context/TaskContext';
 import UpdateTaskForm from '../components/UpdateTaskForm';
+import Task from '../components/Task';
+import { Container, Divider } from '@mui/material';
+import TaskBar from '../components/TaskBar';
 
 const TaskList = () => {
-    const { tasks, setTasks } = useContext(TaskContext);
-    const { user } = useContext(AuthContext);
+    const { tasks } = useContext(TaskContext);
     const [updatingTaskId, setUpdatingTaskId] = useState(null);
     const [updateFormOpen, setUpdateFormOpen] = useState(false);
 
@@ -23,38 +23,31 @@ const TaskList = () => {
         closeDialog();
     }
 
-    const deleteTask = async (id) => {
-        try {
-            await axios.delete(`http://localhost:5000/tasks/${id}`, {
-                headers: { Authorization: `Bearer ${user.token}` },
-            });
-            setTasks(tasks.filter((task) => task._id !== id));
-        } catch (error) {
-            console.error('Error deleting task:', error);
-        }
-    };
-
     return (
-        <div>
-            <h2>Task List</h2>
-            <ul>
-                {tasks.map((task) => (
-                    <li key={task._id}>
-                        {task.title} - {task.description} {task.dueDate && ` - ${task.dueDate}`}
-                        <button onClick={() => openDialog(task._id)}>Edit</button>
-                        <button onClick={() => deleteTask(task._id)}>Delete</button>
-                    </li>
-                ))}
-            </ul>
-            {updatingTaskId && (
-                <UpdateTaskForm
-                    taskId={updatingTaskId}
-                    updateFormOpen={updateFormOpen}
-                    closeDialog={closeDialog}
-                    onUpdateSuccess={onUpdateSuccess}
-                />
-            )}
-        </div>
+        <section className='my-14 text-gray-700'>
+            <Container maxWidth="lg">
+                <h1 className='text-5xl'>Your List of Tasks</h1>
+                <TaskBar />
+                <Divider sx={{ backgroundColor: "#C6C6C6" }} />
+                <ul className='task-list flex flex-wrap gap-6 mt-6'>
+                    {tasks.map((task) => (
+                        <Task
+                            key={task._id}
+                            task={task}
+                            openDialog={openDialog}
+                        />
+                    ))}
+                </ul>
+                {updatingTaskId && (
+                    <UpdateTaskForm
+                        taskId={updatingTaskId}
+                        updateFormOpen={updateFormOpen}
+                        closeDialog={closeDialog}
+                        onUpdateSuccess={onUpdateSuccess}
+                    />
+                )}
+            </Container>
+        </section>
     );
 };
 

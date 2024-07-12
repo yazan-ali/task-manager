@@ -1,29 +1,22 @@
 import React, { useState, useContext } from 'react';
-import axios from 'axios';
-import { AuthContext } from '../context/AuthContext';
+import { TaskContext } from '../context/TaskContext';
 import { TextField, Button, Typography } from '@mui/material';
 import TaskFormWrapper from '../components/TaskFormWrapper';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 const TaskForm = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [dueDate, setDueDate] = useState('');
-    const { user } = useContext(AuthContext);
+    const [dueDate, setDueDate] = useState(null);
+    const { createTask } = useContext(TaskContext);
 
-    const createTask = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            await axios.post('http://localhost:5000/tasks',
-                { title, description, dueDate },
-                { headers: { Authorization: `Bearer ${user.token}` } }
-            );
-        } catch (error) {
-            // alert('Error creating task');
-        }
+        await createTask({ title, description, dueDate });
     };
 
     return (
-        <TaskFormWrapper handleSubmit={createTask}>
+        <TaskFormWrapper handleSubmit={handleSubmit}>
             <Typography
                 className="form-title">
                 Create new task
@@ -49,14 +42,17 @@ const TaskForm = () => {
                 fullWidth
                 multiline
             />
-            <div>
-                <label>Due Date:</label>
-                <input
-                    type="date"
-                    value={dueDate}
-                    onChange={(e) => setDueDate(e.target.value)}
-                />
-            </div>
+            <DatePicker
+                label="Due Date"
+                value={dueDate}
+                onChange={(newDate) => setDueDate(newDate)}
+                renderInput={(params) =>
+                    <TextField {...params}
+                        fullWidth
+                    />
+                }
+                sx={{ width: "100%" }}
+            />
             <Button type="submit" variant="contained">Create Task</Button>
         </TaskFormWrapper>
     );

@@ -1,42 +1,28 @@
 import React, { useState, useContext, useEffect } from 'react';
-import axios from 'axios';
 import { TaskContext } from '../context/TaskContext';
-import { AuthContext } from '../context/AuthContext';
 import { TextField, Button, Dialog, DialogTitle } from '@mui/material';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
 
 const UpdateTaskForm = ({ taskId, updateFormOpen, closeDialog, onUpdateSuccess }) => {
-    const { tasks, setTasks } = useContext(TaskContext);
-    const { user } = useContext(AuthContext);
+    const { tasks, updateTask } = useContext(TaskContext);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [dueDate, setDueDate] = useState('');
+    const [dueDate, setDueDate] = useState(null);
 
     useEffect(() => {
         const task = tasks.find((t) => t._id === taskId);
         if (task) {
             setTitle(task.title);
             setDescription(task.description);
-            setDueDate(task.dueDate);
+            setDueDate(dayjs(task.dueDate) || null);
         }
     }, [taskId, tasks]);
 
-    const updateTask = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const res = await axios.put(`http://localhost:5000/tasks/${taskId}`,
-                {
-                    title,
-                    description,
-                    dueDate,
-                },
-                {
-                    headers: { Authorization: `Bearer ${user.token}` },
-                });
-            setTasks(tasks.map((task) => (task._id === taskId ? res.data : task)));
-            onUpdateSuccess();
-        } catch (error) {
-            console.error('An error occurred while updating task: ', error);
-        }
+        await updateTask({ _id: taskId, title, description, dueDate });
+        onUpdateSuccess();
     };
 
     return (
@@ -46,7 +32,7 @@ const UpdateTaskForm = ({ taskId, updateFormOpen, closeDialog, onUpdateSuccess }
             fullWidth
         >
             <DialogTitle>Update task</DialogTitle>
-            <form onSubmit={updateTask} className='flex flex-col gap-8 p-10 shadow-none'>
+            <form onSubmit={handleSubmit} className='flex flex-col gap-8 p-10 shadow-none'>
                 <TextField
                     label="Title"
                     variant="outlined"
@@ -68,14 +54,17 @@ const UpdateTaskForm = ({ taskId, updateFormOpen, closeDialog, onUpdateSuccess }
                     fullWidth
                     multiline
                 />
-                <div>
-                    <label>Due Date:</label>
-                    <input
-                        type="date"
-                        value={dueDate}
-                        onChange={(e) => setDueDate(e.target.value)}
-                    />
-                </div>
+                <DatePicker
+                    label="Due Date"
+                    value={dueDate}
+                    onChange={(newDate) => setDueDate(newDate)}
+                    renderInput={(params) =>
+                        <TextField {...params}
+                            fullWidth
+                        />
+                    }
+                    sx={{ width: "100%" }}
+                />
                 <Button type="submit" variant="contained">Update Task</Button>
             </form>
         </Dialog>
