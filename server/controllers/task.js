@@ -26,8 +26,8 @@ const createTask = async (req, res) => {
     try {
         validateTaskInputs(title, description, dueDate);
         const task = new Task({ title, description, dueDate, user: userId });
-        await task.save();
-        res.status(201).json(task);
+        const newTask = await task.save();
+        res.status(201).json(newTask);
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
@@ -77,7 +77,6 @@ const deleteTask = async (req, res) => {
         await task.deleteOne({ _id: id });
         res.json({ message: 'Task deleted successfully' });
     } catch (error) {
-        console.log(error)
         res.status(400).json({ error: error.message });
     }
 };
