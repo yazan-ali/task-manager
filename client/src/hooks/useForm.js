@@ -1,21 +1,24 @@
 import { useState } from 'react';
+import dayjs from 'dayjs';
 
 const useForm = (initialValues, onSubmit) => {
     const [values, setValues] = useState(initialValues);
     const [errors, setErrors] = useState({});
 
     const handleChange = (evt) => {
-        if (evt.target) {
-            const { name, value } = evt.target;
-            setValues({
-                ...values,
-                [name]: value,
-            });
-        } else {
-            setValues({
-                ...values,
-                [evt.name]: evt.value,
-            });
+        const { name, value } = evt.target || evt;
+
+        setValues({
+            ...values,
+            [name]: value,
+        });
+
+        // check if the dueDate is before today date
+        if (name === 'dueDate') {
+            const today = dayjs();
+            if (dayjs(value).isBefore(today, 'day')) {
+                setErrors({ ...errors, dueDate: "Due date can be set at least to today date" })
+            }
         }
     };
 

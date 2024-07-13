@@ -2,8 +2,8 @@ import React, { useState, useContext, useEffect } from 'react';
 import { TaskContext } from '../context/TaskContext';
 import { TextField, Button, Dialog, DialogTitle } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import dayjs from 'dayjs';
 import useForm from '../hooks/useForm';
+import dayjs from 'dayjs';
 
 const UpdateTaskForm = ({ taskId, updateFormOpen, closeDialog, onUpdateSuccess }) => {
     const { tasks, updateTask } = useContext(TaskContext);
@@ -67,6 +67,7 @@ const UpdateTaskForm = ({ taskId, updateFormOpen, closeDialog, onUpdateSuccess }
                     label="Due Date"
                     value={values.dueDate}
                     onChange={(date) => handleChange({ name: "dueDate", value: date })}
+                    minDate={dayjs()}
                     slotProps={{
                         textField: {
                             error: !!errors.dueDate,

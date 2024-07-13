@@ -4,6 +4,7 @@ import { TextField, Button, Typography } from '@mui/material';
 import TaskFormWrapper from '../components/TaskFormWrapper';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import useForm from '../hooks/useForm';
+import dayjs from 'dayjs';
 
 const TaskForm = () => {
     const formInitialValues = { title: '', description: '', dueDate: null };
@@ -51,6 +52,7 @@ const TaskForm = () => {
                 label="Due Date"
                 value={values.dueDate}
                 onChange={(date) => handleChange({ name: "dueDate", value: date })}
+                minDate={dayjs()}
                 slotProps={{
                     textField: {
                         error: !!errors.dueDate,

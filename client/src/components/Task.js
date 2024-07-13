@@ -2,6 +2,8 @@ import React, { useContext, useState } from 'react';
 import { TaskContext } from '../context/TaskContext';
 import { Divider, Button, MenuItem, Menu, IconButton } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { useTheme } from '@mui/material/styles';
 import dayjs from 'dayjs';
 import '../styles/task.scss';
 
@@ -9,6 +11,7 @@ function Task({ task, openDialog }) {
     const { deleteTask, updateTask } = useContext(TaskContext);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+    const theme = useTheme();
 
     const handleClick = (evt) => {
         setAnchorEl(evt.currentTarget);
@@ -26,8 +29,40 @@ function Task({ task, openDialog }) {
         });
     }
 
+
+    const calculateRemainingDays = (dueDate) => {
+        const today = dayjs();
+        const due = dayjs(dueDate);
+        let dayRemaining = due.diff(today, 'day');
+        if (dayRemaining > 0) {
+            return `${dayRemaining} days remaining`;
+        } else {
+            return "Must be completed today";
+        }
+    };
+
     return (
         <li className="task-list__task flex flex-col gap-2 bg-white p-4 rounded-md">
+            <div className="flex justify-between font-medium">
+                <span className="capitalize">
+                    {
+                        task.completed ? (
+                            <div className="flex items-center gap-1">
+                                completed
+                                < CheckCircleIcon sx={{
+                                    color: theme.palette.success.main,
+                                    fontSize: 16,
+                                }} />
+                            </div>
+                        ) : (
+                            "in proggress"
+                        )
+                    }
+                </span>
+                <span style={{ color: theme.palette.warning.main }}>
+                    {!task.completed && calculateRemainingDays(task.dueDate)}
+                </span>
+            </div>
             <h2 className="font-semibold text-3xl">{task.title}</h2>
             <p className="text-lg">{task.description}</p>
             <span className='font-medium text-gray-500'>Due Date:

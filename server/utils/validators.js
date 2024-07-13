@@ -16,6 +16,13 @@ validateTaskInputs = (title, description, dueDate) => {
     }
     if (dueDate === null) {
         throw new Error("Due date can not be empty")
+    } else {
+        // check if the dueDate is before today date
+        const today = new Date().setHours(0, 0, 0, 0); // Set to the start of today
+        const targetDueDate = new Date(dueDate).setHours(0, 0, 0, 0);
+        if (targetDueDate < today) {
+            throw new Error("Due date can be set at least to today date")
+        }
     }
 }
 
