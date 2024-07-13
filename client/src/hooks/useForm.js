@@ -22,7 +22,10 @@ const useForm = (initialValues, onSubmit) => {
     const handleSubmit = (evt) => {
         evt.preventDefault();
         if (validateForm()) {
-            onSubmit(values);
+            const shouldEmptyInputFields = onSubmit(values);
+            if (shouldEmptyInputFields) {
+                setValues(initialValues);
+            }
         }
     };
 

@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import AuthFormWrapper from '../components/AuthFormWrapper';

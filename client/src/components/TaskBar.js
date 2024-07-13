@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 function TaskBar() {
 
-    const { tasks, getTasks } = useContext(TaskContext);
+    const { getTasks } = useContext(TaskContext);
     const [sortBy, setSortBy] = useState('');
     const [filterBy, setFilterBy] = useState('');
 
@@ -31,7 +31,7 @@ function TaskBar() {
                 </Link>
             </Button>
             <div className="task-list__actions">
-                <FormControl variant='standard' sx={{ m: 1, minWidth: 150 }}>
+                <FormControl variant='filled' sx={{ m: 1, minWidth: 150 }}>
                     <InputLabel id="sort-by">Sort By</InputLabel>
                     <Select
                         labelId="sort-by"
@@ -44,7 +44,7 @@ function TaskBar() {
                         <MenuItem value="duedate">Due Date</MenuItem>
                     </Select>
                 </FormControl>
-                <FormControl variant='standard' sx={{ m: 1, minWidth: 150 }}>
+                <FormControl variant='filled' sx={{ m: 1, minWidth: 150 }}>
                     <InputLabel id="filter-by">Filter By</InputLabel>
                     <Select
                         labelId="filter-by"

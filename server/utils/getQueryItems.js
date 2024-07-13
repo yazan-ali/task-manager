@@ -1,4 +1,4 @@
-const getQueryItems = (filter, sortBy, userId) => {
+const getQueryItems = (userId, filter, sortBy, searchTerm) => {
     const query = { user: userId };
     const sortQuery = {};
 
@@ -14,6 +14,10 @@ const getQueryItems = (filter, sortBy, userId) => {
         query.completed = true;
     } else if (filter === "uncompleted") {
         query.completed = false;
+    }
+
+    if (searchTerm) {
+        query.title = { $regex: searchTerm, $options: 'i' }
     }
 
     return { query, sortQuery }

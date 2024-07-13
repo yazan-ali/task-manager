@@ -19,3 +19,11 @@
         }
     }
 }
+
+.task-search {
+    display: block;
+
+    @include media("850px") {
+        display: none;
+    }
+}

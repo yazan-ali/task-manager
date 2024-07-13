@@ -3,9 +3,9 @@ const getQueryItems = require('../utils/getQueryItems');
 const { validateTaskInputs } = require('../utils/validators');
 
 const getTasks = async (req, res) => {
-    const { filter, sortBy } = req.query;
+    const { filter, sortBy, searchTerm } = req.query;
     const userId = req.user.id;
-    const { query, sortQuery } = getQueryItems(filter, sortBy, userId)
+    const { query, sortQuery } = getQueryItems(userId, filter, sortBy, searchTerm);
 
     try {
         const tasks = await Task.find(query).sort(sortQuery);

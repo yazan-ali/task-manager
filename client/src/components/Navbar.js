@@ -1,9 +1,10 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
-import { TextField, Button } from '@mui/material';
+import { Button } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import "../styles/navbar.scss";
+import SearchField from './Search';
 
 function Navbar() {
 
@@ -15,14 +16,14 @@ function Navbar() {
     }
 
     return (
-        <header className="navbar flex md:justify-between md:items-center bg-white p-5 relative">
+        <header className="navbar flex md:justify-between md:items-center bg-white p-4 relative">
             <div className='flex justify-between items-center'>
                 <Link to="/tasks" className="logo text-2xl font-semibold">Task Manager</Link>
                 <div className="navbar__toggle">
                     <MenuIcon onClick={toggleNavbar} sx={{ fontSize: 32 }} />
                 </div>
             </div>
-            <div className={`navbar__content absolute overflow-hidden flex flex-grow md:justify-between md:items-center gap-5 ${openNavbar && "open"}`}>
+            <div className={`navbar__content absolute z-10 overflow-hidden flex flex-grow md:justify-between md:items-center gap-5 ${openNavbar && "open"}`}>
                 <nav className='md:flex-grow md:ml-9 md:mt-1'>
                     <ul className='navbar__links'>
                         <li>
@@ -36,8 +37,8 @@ function Navbar() {
                         </li>
                     </ul>
                 </nav>
-                <div className="navbar__search">
-                    <TextField className="search" variant="outlined" size="small" label="Search" />
+                <div className="navbar__search py-2">
+                    <SearchField />
                 </div>
                 <div className='navbar__links'>
                     {
