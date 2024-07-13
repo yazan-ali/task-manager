@@ -3,29 +3,32 @@ import { TaskContext } from '../context/TaskContext';
 import { TextField, Button, Dialog, DialogTitle } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
+import useForm from '../hooks/useForm';
 
 const UpdateTaskForm = ({ taskId, updateFormOpen, closeDialog, onUpdateSuccess }) => {
     const { tasks, updateTask } = useContext(TaskContext);
     const [task, setTask] = useState(null);
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [dueDate, setDueDate] = useState(null);
+    const formInitialValues = { title: '', description: '', dueDate: null };
+
+    const onSubmit = async () => {
+        await updateTask({ ...task, ...values });
+        onUpdateSuccess();
+        setTask(null)
+    };
+
+    const { values, errors, handleChange, handleSubmit, setValues } = useForm(formInitialValues, onSubmit);
 
     useEffect(() => {
         setTask(tasks.find((t) => t._id === taskId));
         if (task) {
-            setTitle(task.title);
-            setDescription(task.description);
-            setDueDate(dayjs(task.dueDate) || null);
+            setValues({
+                title: task.title,
+                description: task.description,
+                dueDate: dayjs(task.dueDate)
+            })
         }
-    }, [task, taskId, tasks]);
+    }, [task, taskId, tasks, setValues]);
 
-    const handleSubmit = async (evt) => {
-        evt.preventDefault();
-        await updateTask({ ...task, title, description, dueDate });
-        onUpdateSuccess();
-        setTask(null)
-    };
 
     return (
         <Dialog
@@ -37,34 +40,40 @@ const UpdateTaskForm = ({ taskId, updateFormOpen, closeDialog, onUpdateSuccess }
             <form onSubmit={handleSubmit} className='flex flex-col gap-8 p-10 shadow-none'>
                 <TextField
                     label="Title"
+                    name="title"
                     variant="outlined"
                     type="text"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
+                    value={values.title}
+                    onChange={handleChange}
+                    error={!!errors.title}
+                    helperText={errors.title}
                     placeholder="Title"
-                    required
                     fullWidth
                 />
                 <TextField
                     label="Description"
+                    name="description"
                     variant="outlined"
                     type="text"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
+                    value={values.description}
+                    onChange={handleChange}
+                    error={!!errors.description}
+                    helperText={errors.description}
                     placeholder="Description"
-                    required
                     fullWidth
                     multiline
                 />
                 <DatePicker
                     label="Due Date"
-                    value={dueDate}
-                    onChange={(newDate) => setDueDate(newDate)}
-                    renderInput={(params) =>
-                        <TextField {...params}
-                            fullWidth
-                        />
-                    }
+                    value={values.dueDate}
+                    onChange={(date) => handleChange({ name: "dueDate", value: date })}
+                    slotProps={{
+                        textField: {
+                            error: !!errors.dueDate,
+                            helperText: errors.dueDate,
+                            fullWidth: true,
+                        }
+                    }}
                     sx={{ width: "100%" }}
                 />
                 <Button type="submit" variant="contained">Update Task</Button>

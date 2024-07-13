@@ -2,9 +2,9 @@ import React, { createContext, useEffect, useContext, useReducer } from 'react';
 import { GET_TASKS, CREATE_TASK, UPDATE_TASK, DELETE_TASK } from './TaskActionTypes';
 import { taskReducer } from './TaskReducer';
 import { AuthContext } from '../context/AuthContext';
+import axios from 'axios';
 import useSnackbar from '../hooks/useSnackbar';
 import CustomSnackbar from '../components/CustomSnackbar';
-import axios from 'axios';
 
 export const TaskContext = createContext();
 
@@ -55,6 +55,7 @@ export const TaskProvider = ({ children }) => {
             dispatch({ type: UPDATE_TASK, payload: res.data });
             showSnackbar("Task updated successfully", "success")
         } catch (error) {
+            console.log(error)
             showSnackbar(error.response.data.error, "error")
         }
     };

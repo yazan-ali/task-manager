@@ -24,7 +24,6 @@ function TaskBar() {
 
     return (
         <div className='task-list__bar flex flex-wrap justify-between gap-4 items-center mt-8 pb-4'>
-            {/* <span className='text-xl'>You have {tasks.length} tasks to complete</span> */}
             <Button variant='contained'>
                 <Link className='flex items-center gap-2 text-inherit no-underline' to="/create">
                     create new task

@@ -27,7 +27,7 @@ function Task({ task, openDialog }) {
     }
 
     return (
-        <li className="task-list__task flex flex-col gap-2 min-w-96 bg-white p-4 rounded-md">
+        <li className="task-list__task flex flex-col gap-2 bg-white p-4 rounded-md">
             <h2 className="font-semibold text-3xl">{task.title}</h2>
             <p className="text-lg">{task.description}</p>
             <span className='font-medium text-gray-500'>Due Date:

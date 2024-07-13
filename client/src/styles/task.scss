@@ -7,11 +7,15 @@
 .task-list {
     &__task {
         box-shadow: $box-shadow;
-        max-width: calc(50% - 24px);
+        width: 100%;
         transition: background-color 0.2s ease-in-out;
 
         &:hover {
             background-color: rgba(0, 0, 0, 0.07);
+        }
+
+        @include media("md") {
+            width: calc(50% - 24px);
         }
     }
 }

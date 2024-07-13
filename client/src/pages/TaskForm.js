@@ -1,19 +1,20 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { TaskContext } from '../context/TaskContext';
 import { TextField, Button, Typography } from '@mui/material';
 import TaskFormWrapper from '../components/TaskFormWrapper';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import useForm from '../hooks/useForm';
 
 const TaskForm = () => {
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [dueDate, setDueDate] = useState(null);
+    const formInitialValues = { title: '', description: '', dueDate: null };
     const { createTask } = useContext(TaskContext);
 
-    const handleSubmit = async (evt) => {
-        evt.preventDefault();
-        await createTask({ title, description, dueDate });
+    const onSubmit = async (values) => {
+        await createTask(values);
     };
+
+
+    const { values, errors, handleChange, handleSubmit } = useForm(formInitialValues, onSubmit);
 
     return (
         <TaskFormWrapper handleSubmit={handleSubmit}>
@@ -23,34 +24,40 @@ const TaskForm = () => {
             </Typography>
             <TextField
                 label="Title"
+                name="title"
                 variant="outlined"
                 type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                value={values.title}
+                onChange={handleChange}
+                error={!!errors.title}
+                helperText={errors.title}
                 placeholder="Title"
-                required
                 fullWidth
             />
             <TextField
                 label="Description"
+                name="description"
                 variant="outlined"
                 type="text"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                value={values.description}
+                onChange={handleChange}
+                error={!!errors.description}
+                helperText={errors.description}
                 placeholder="Description"
-                required
                 fullWidth
                 multiline
             />
             <DatePicker
                 label="Due Date"
-                value={dueDate}
-                onChange={(newDate) => setDueDate(newDate)}
-                renderInput={(params) =>
-                    <TextField {...params}
-                        fullWidth
-                    />
-                }
+                value={values.dueDate}
+                onChange={(date) => handleChange({ name: "dueDate", value: date })}
+                slotProps={{
+                    textField: {
+                        error: !!errors.dueDate,
+                        helperText: errors.dueDate,
+                        fullWidth: true,
+                    }
+                }}
                 sx={{ width: "100%" }}
             />
             <Button type="submit" variant="contained">Create Task</Button>
