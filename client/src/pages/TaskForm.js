@@ -11,7 +11,7 @@ const TaskForm = () => {
     const { createTask } = useContext(TaskContext);
 
     const onSubmit = async (values) => {
-        await createTask(values);
+        return await createTask(values);
     };
 
 

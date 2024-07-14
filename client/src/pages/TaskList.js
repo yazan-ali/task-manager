@@ -6,6 +6,7 @@ import Task from '../components/Task';
 import { Container, Divider } from '@mui/material';
 import TaskBar from '../components/TaskBar';
 import SearchField from '../components/Search';
+import NoResults from '../components/NoResults';
 
 const TaskList = () => {
     const { user } = useContext(AuthContext);
@@ -29,7 +30,7 @@ const TaskList = () => {
 
     return (
         <section className='my-14 text-gray-700'>
-            <Container maxWidth="lg">
+            <Container maxWidth="xl">
                 <h1 className='flex items-center capitalize text-4xl'>Hi {user.username},
                     {tasks.length ? " here is your list of tasks" : " Your tasks list is empty"}
                 </h1>
@@ -38,6 +39,11 @@ const TaskList = () => {
                 <div className="task-search mt-6">
                     <SearchField />
                 </div>
+                {tasks.length === 0 &&
+                    <div className='task-list__no-tasks'>
+                        <NoResults />
+                    </div>
+                }
                 <ul className='task-list flex flex-wrap gap-6 mt-6'>
                     {tasks.map((task) => (
                         <Task

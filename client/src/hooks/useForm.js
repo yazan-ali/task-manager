@@ -22,10 +22,11 @@ const useForm = (initialValues, onSubmit) => {
         }
     };
 
-    const handleSubmit = (evt) => {
+    const handleSubmit = async (evt) => {
         evt.preventDefault();
         if (validateForm()) {
-            const shouldEmptyInputFields = onSubmit(values);
+            const shouldEmptyInputFields = await onSubmit(values);
+            console.log(shouldEmptyInputFields)
             if (shouldEmptyInputFields) {
                 setValues(initialValues);
             }

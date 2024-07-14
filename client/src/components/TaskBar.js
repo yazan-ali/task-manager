@@ -39,7 +39,7 @@ function TaskBar() {
                         onChange={handleSortByChange}
                     >
                         <MenuItem value="">Sort By</MenuItem>
-                        <MenuItem value="created">Created At</MenuItem>
+                        <MenuItem value="created">Recently Created</MenuItem>
                         <MenuItem value="modified">Last Modify</MenuItem>
                         <MenuItem value="duedate">Due Date</MenuItem>
                     </Select>

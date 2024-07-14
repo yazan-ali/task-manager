@@ -24,7 +24,7 @@ export const TaskProvider = ({ children }) => {
 
     const getTasks = async (filter, sortBy) => {
         try {
-            const res = await axios.get('http://localhost:5000/tasks', {
+            const res = await axios.get(`${process.env.REACT_APP_SERVER_URL}/tasks`, {
                 params: { sortBy, filter },
                 headers: { Authorization: `Bearer ${user.token}` },
             });
@@ -36,7 +36,7 @@ export const TaskProvider = ({ children }) => {
 
     const createTask = async (task) => {
         try {
-            const res = await axios.post('http://localhost:5000/tasks', task, {
+            const res = await axios.post(`${process.env.REACT_APP_SERVER_URL}/tasks`, task, {
                 headers: { Authorization: `Bearer ${user.token}` },
             });
             dispatch({ type: CREATE_TASK, payload: res.data });
@@ -49,7 +49,7 @@ export const TaskProvider = ({ children }) => {
 
     const updateTask = async (task) => {
         try {
-            const res = await axios.put(`http://localhost:5000/tasks/${task._id}`, task, {
+            const res = await axios.put(`${process.env.REACT_APP_SERVER_URL}/tasks/${task._id}`, task, {
                 headers: { Authorization: `Bearer ${user.token}` },
             });
             dispatch({ type: UPDATE_TASK, payload: res.data });
@@ -62,7 +62,7 @@ export const TaskProvider = ({ children }) => {
 
     const deleteTask = async (id) => {
         try {
-            await axios.delete(`http://localhost:5000/tasks/${id}`, {
+            await axios.delete(`${process.env.REACT_APP_SERVER_URL}/tasks/${id}`, {
                 headers: { Authorization: `Bearer ${user.token}` },
             });
             dispatch({ type: DELETE_TASK, payload: id });
@@ -74,7 +74,7 @@ export const TaskProvider = ({ children }) => {
 
     const filterTasksByTitle = async (searchTerm) => {
         try {
-            const res = await axios.get('http://localhost:5000/tasks', {
+            const res = await axios.get(`${process.env.REACT_APP_SERVER_URL}/tasks`, {
                 params: { searchTerm },
                 headers: { Authorization: `Bearer ${user.token}` },
             });

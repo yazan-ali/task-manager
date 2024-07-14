@@ -1,9 +1,5 @@
 @import './helpers.scss';
 
-.task-list-wrapper {
-    min-height: calc(100vh - 70px);
-}
-
 .task-list {
     &__task {
         box-shadow: $box-shadow;
@@ -14,16 +10,19 @@
             background-color: rgba(0, 0, 0, 0.07);
         }
 
-        @include media("md") {
+        @include media('md') {
             width: calc(50% - 24px);
         }
+    }
+    &__no-tasks {
+        height: 70vh;
     }
 }
 
 .task-search {
     display: block;
 
-    @include media("850px") {
+    @include media('850px') {
         display: none;
     }
 }
