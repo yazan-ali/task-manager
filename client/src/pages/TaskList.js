@@ -7,10 +7,11 @@ import { Container, Divider } from '@mui/material';
 import TaskBar from '../components/TaskBar';
 import SearchField from '../components/Search';
 import NoResults from '../components/NoResults';
+import LoadingIndicator from '../components/LoadingIndicator';
 
 const TaskList = () => {
     const { user } = useContext(AuthContext);
-    const { tasks } = useContext(TaskContext);
+    const { tasks, isLoading } = useContext(TaskContext);
     const [updatingTaskId, setUpdatingTaskId] = useState(null);
     const [updateFormOpen, setUpdateFormOpen] = useState(false);
 
@@ -39,20 +40,25 @@ const TaskList = () => {
                 <div className="task-search mt-6">
                     <SearchField />
                 </div>
-                {tasks.length === 0 &&
-                    <div className='task-list__no-tasks'>
-                        <NoResults />
-                    </div>
-                }
-                <ul className='task-list flex flex-wrap gap-6 mt-6'>
-                    {tasks.map((task) => (
-                        <Task
-                            key={task._id}
-                            task={task}
-                            openDialog={openDialog}
-                        />
-                    ))}
-                </ul>
+                {isLoading ?
+                    <LoadingIndicator /> : (
+                        <>
+                            {tasks.length === 0 &&
+                                <div className='task-list__no-tasks'>
+                                    <NoResults />
+                                </div>
+                            }
+                            <ul className='task-list flex flex-wrap gap-6 mt-6'>
+                                {tasks.map((task) => (
+                                    <Task
+                                        key={task._id}
+                                        task={task}
+                                        openDialog={openDialog}
+                                    />
+                                ))}
+                            </ul>
+                        </>
+                    )}
                 {updatingTaskId && (
                     <UpdateTaskForm
                         taskId={updatingTaskId}

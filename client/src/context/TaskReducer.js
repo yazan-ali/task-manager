@@ -1,4 +1,4 @@
-import { GET_TASKS, CREATE_TASK, UPDATE_TASK, DELETE_TASK } from './TaskActionTypes';
+import { GET_TASKS, CREATE_TASK, UPDATE_TASK, DELETE_TASK, TOGGLE_LOADING } from './TaskActionTypes';
 
 export const taskReducer = (state, action) => {
     switch (action.type) {
@@ -18,6 +18,8 @@ export const taskReducer = (state, action) => {
                 ...state,
                 tasks: state.tasks.filter(task => task._id !== action.payload),
             };
+        case TOGGLE_LOADING:
+            return { ...state, loading: !state.loading };
         default:
             return state;
     }

@@ -13,12 +13,18 @@ function Task({ task, openDialog }) {
     const open = Boolean(anchorEl);
     const theme = useTheme();
 
-    const handleClick = (evt) => {
+    const handleActionMenuBtnClick = (evt) => {
         setAnchorEl(evt.currentTarget);
+        console.log(evt.currentTarget)
     };
 
-    const handleClose = () => {
+    const handleActionMenuClose = () => {
         setAnchorEl(null);
+    };
+
+    const onMenuActionClick = (action) => {
+        setAnchorEl(null);
+        action();
     };
 
     const toggleTaskComplete = async (evt) => {
@@ -72,7 +78,7 @@ function Task({ task, openDialog }) {
                 <Divider sx={{ backgroundColor: "#C6C6C6" }} />
                 <div className='flex justify-between gap-3'>
                     <Button variant="contained" onClick={toggleTaskComplete}>
-                        {task.completed ? "mark as uncomplete" : "mark as complete"}
+                        {task.completed ? "mark as incomplete" : "mark as complete"}
                     </Button>
                     <IconButton
                         aria-label="more"
@@ -80,7 +86,7 @@ function Task({ task, openDialog }) {
                         aria-controls={anchorEl ? 'actions-menu' : undefined}
                         aria-expanded={anchorEl ? 'true' : undefined}
                         aria-haspopup="true"
-                        onClick={handleClick}
+                        onClick={handleActionMenuBtnClick}
                     >
                         <MoreVertIcon />
                     </IconButton>
@@ -91,10 +97,15 @@ function Task({ task, openDialog }) {
                         }}
                         anchorEl={anchorEl}
                         open={open}
-                        onClose={handleClose}
+                        onClose={handleActionMenuClose}
                     >
-                        <MenuItem onClick={() => openDialog(task._id)}>Edit</MenuItem>
-                        <MenuItem onClick={() => deleteTask(task._id)}>Delete</MenuItem>
+                        <MenuItem onClick={() => onMenuActionClick(
+                            () => openDialog(task._id)
+                        )}
+                        >Edit</MenuItem>
+                        <MenuItem onClick={() => onMenuActionClick(
+                            () => deleteTask(task._id)
+                        )}>Delete</MenuItem>
                     </Menu>
                 </div>
             </div>

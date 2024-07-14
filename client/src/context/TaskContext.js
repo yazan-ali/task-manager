@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useContext, useReducer } from 'react';
-import { GET_TASKS, CREATE_TASK, UPDATE_TASK, DELETE_TASK } from './TaskActionTypes';
+import { GET_TASKS, CREATE_TASK, UPDATE_TASK, DELETE_TASK, TOGGLE_LOADING } from './TaskActionTypes';
 import { taskReducer } from './TaskReducer';
 import { AuthContext } from '../context/AuthContext';
 import useSnackbar from '../hooks/useSnackbar';
@@ -9,7 +9,7 @@ import axios from 'axios';
 export const TaskContext = createContext();
 
 export const TaskProvider = ({ children }) => {
-    const initialState = { tasks: [] };
+    const initialState = { tasks: null };
     const [state, dispatch] = useReducer(taskReducer, initialState);
     const { user } = useContext(AuthContext);
     const { snackbar, showSnackbar, closeSnackbar } = useSnackbar();
@@ -22,13 +22,19 @@ export const TaskProvider = ({ children }) => {
         }
     }, [user]);
 
+    const toggleLoading = () => {
+        dispatch({ type: TOGGLE_LOADING });
+    }
+
     const getTasks = async (filter, sortBy) => {
         try {
+            toggleLoading();
             const res = await axios.get(`${process.env.REACT_APP_SERVER_URL}/tasks`, {
                 params: { sortBy, filter },
                 headers: { Authorization: `Bearer ${user.token}` },
             });
             dispatch({ type: GET_TASKS, payload: res.data });
+            toggleLoading();
         } catch (error) {
             showSnackbar("An error occurred while fetching tasks", "error")
         }
@@ -85,7 +91,7 @@ export const TaskProvider = ({ children }) => {
     };
 
     return (
-        <TaskContext.Provider value={{ tasks: state.tasks, getTasks, createTask, updateTask, deleteTask, filterTasksByTitle }}>
+        <TaskContext.Provider value={{ tasks: state.tasks, isLoading: state.loading, getTasks, createTask, updateTask, deleteTask, filterTasksByTitle }}>
             {children}
             <CustomSnackbar snackbar={snackbar} closeSnackbar={closeSnackbar} />
         </TaskContext.Provider>

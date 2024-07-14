@@ -26,7 +26,6 @@ const useForm = (initialValues, onSubmit) => {
         evt.preventDefault();
         if (validateForm()) {
             const shouldEmptyInputFields = await onSubmit(values);
-            console.log(shouldEmptyInputFields)
             if (shouldEmptyInputFields) {
                 setValues(initialValues);
             }
