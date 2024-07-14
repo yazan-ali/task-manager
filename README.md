@@ -66,6 +66,7 @@ A simple task management application where users can create, read, update, and d
 
 3. **Access the application**:
     - Open your browser and navigate to `http://localhost:3000` to use the application.
+    - or you can check the live version from here `https://task-manager-seven-orpin.vercel.app/`
 
 ## Additional Information
 
