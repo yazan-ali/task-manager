@@ -6,11 +6,11 @@ A simple task management application where users can create, read, update, and d
 ## Features
 - **User Authentication**: Sign up, log in, log out
 - **Task Management**: Create, view, update, delete tasks
-- **Task Actions**: Task filtering and sorting, mark tasks as complete or incomplete
+- **Task Actions**: Task filtering, sorting, and mark tasks as complete or incomplete
 - **User Association**: Each task is associated with the user who created it
 
 ## Technologies
-- **Frontend**: React, React Router, Axios
+- **Frontend**: React, React Router, Axios, Material UI, SCSS
 - **Backend**: Node.js, Express, MongoDB, JWT, bcryptjs
 - **Testing**: Jest, Supertest
 
