@@ -4,6 +4,11 @@ import dayjs from 'dayjs';
 const useForm = (initialValues, onSubmit) => {
     const [values, setValues] = useState(initialValues);
     const [errors, setErrors] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
+
+    const toggleIsLoading = () => {
+        setIsLoading(prev => !prev);
+    }
 
     const handleChange = (evt) => {
         const { name, value } = evt.target || evt;
@@ -25,7 +30,9 @@ const useForm = (initialValues, onSubmit) => {
     const handleSubmit = async (evt) => {
         evt.preventDefault();
         if (validateForm()) {
+            toggleIsLoading();
             const shouldEmptyInputFields = await onSubmit(values);
+            toggleIsLoading();
             if (shouldEmptyInputFields) {
                 setValues(initialValues);
             }
@@ -51,6 +58,7 @@ const useForm = (initialValues, onSubmit) => {
     return {
         values,
         errors,
+        isLoading,
         handleChange,
         handleSubmit,
         setValues

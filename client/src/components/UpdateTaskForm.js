@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { TaskContext } from '../context/TaskContext';
-import { TextField, Button, Dialog, DialogTitle } from '@mui/material';
+import { TextField, Dialog, DialogTitle } from '@mui/material';
+import FormSubmitButton from '../components/FormSubmitButton';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import useForm from '../hooks/useForm';
 import dayjs from 'dayjs';
@@ -16,7 +17,7 @@ const UpdateTaskForm = ({ taskId, updateFormOpen, closeDialog, onUpdateSuccess }
         setTask(null)
     };
 
-    const { values, errors, handleChange, handleSubmit, setValues } = useForm(formInitialValues, onSubmit);
+    const { values, errors, isLoading, handleChange, handleSubmit, setValues } = useForm(formInitialValues, onSubmit);
 
     useEffect(() => {
         setTask(tasks.find((t) => t._id === taskId));
@@ -49,6 +50,7 @@ const UpdateTaskForm = ({ taskId, updateFormOpen, closeDialog, onUpdateSuccess }
                     helperText={errors.title}
                     placeholder="Title"
                     fullWidth
+                    disabled={isLoading}
                 />
                 <TextField
                     label="Description"
@@ -62,6 +64,7 @@ const UpdateTaskForm = ({ taskId, updateFormOpen, closeDialog, onUpdateSuccess }
                     placeholder="Description"
                     fullWidth
                     multiline
+                    disabled={isLoading}
                 />
                 <DatePicker
                     label="Due Date"
@@ -73,11 +76,18 @@ const UpdateTaskForm = ({ taskId, updateFormOpen, closeDialog, onUpdateSuccess }
                             error: !!errors.dueDate,
                             helperText: errors.dueDate,
                             fullWidth: true,
+                            disabled: isLoading
                         }
                     }}
                     sx={{ width: "100%" }}
                 />
-                <Button type="submit" variant="contained">Update Task</Button>
+                <FormSubmitButton
+                    type="submit"
+                    variant="contained"
+                    isLoading={isLoading}
+                >
+                    update task
+                </FormSubmitButton>
             </form>
         </Dialog>
     );

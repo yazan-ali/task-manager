@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { TaskContext } from '../context/TaskContext';
-import { TextField, Button, Typography } from '@mui/material';
+import { TextField, Typography } from '@mui/material';
+import FormSubmitButton from '../components/FormSubmitButton';
 import TaskFormWrapper from '../components/TaskFormWrapper';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import useForm from '../hooks/useForm';
@@ -15,7 +16,7 @@ const TaskForm = () => {
     };
 
 
-    const { values, errors, handleChange, handleSubmit } = useForm(formInitialValues, onSubmit);
+    const { values, errors, isLoading, handleChange, handleSubmit } = useForm(formInitialValues, onSubmit);
 
     return (
         <TaskFormWrapper handleSubmit={handleSubmit}>
@@ -34,6 +35,7 @@ const TaskForm = () => {
                 helperText={errors.title}
                 placeholder="Title"
                 fullWidth
+                disabled={isLoading}
             />
             <TextField
                 label="Description"
@@ -47,6 +49,7 @@ const TaskForm = () => {
                 placeholder="Description"
                 fullWidth
                 multiline
+                disabled={isLoading}
             />
             <DatePicker
                 label="Due Date"
@@ -58,11 +61,18 @@ const TaskForm = () => {
                         error: !!errors.dueDate,
                         helperText: errors.dueDate,
                         fullWidth: true,
+                        disabled: isLoading
                     }
                 }}
                 sx={{ width: "100%" }}
             />
-            <Button type="submit" variant="contained">Create Task</Button>
+            <FormSubmitButton
+                type="submit"
+                variant="contained"
+                isLoading={isLoading}
+            >
+                create task
+            </FormSubmitButton>
         </TaskFormWrapper>
     );
 };

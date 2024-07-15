@@ -2,7 +2,8 @@ import React, { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import AuthFormWrapper from '../components/AuthFormWrapper';
-import { TextField, Button, Typography } from '@mui/material';
+import { TextField, Typography } from '@mui/material';
+import FormSubmitButton from '../components/FormSubmitButton';
 import { Link } from 'react-router-dom';
 import useForm from '../hooks/useForm';
 
@@ -18,7 +19,7 @@ const Login = () => {
         }
     };
 
-    const { values, errors, handleChange, handleSubmit } = useForm(formInitialValues, onSubmit);
+    const { values, errors, isLoading, handleChange, handleSubmit } = useForm(formInitialValues, onSubmit);
 
     return (
         <AuthFormWrapper handleSubmit={handleSubmit}>
@@ -35,6 +36,7 @@ const Login = () => {
                 error={!!errors.username}
                 helperText={errors.username}
                 fullWidth
+                disabled={isLoading}
             />
             <TextField
                 label="Password"
@@ -46,10 +48,17 @@ const Login = () => {
                 error={!!errors.password}
                 helperText={errors.password}
                 fullWidth
+                disabled={isLoading}
 
             />
             <div className='w-full flex justify-between items-center'>
-                <Button type="submit" variant="contained">Log In</Button>
+                <FormSubmitButton
+                    type="submit"
+                    variant="contained"
+                    isLoading={isLoading}
+                >
+                    log in
+                </FormSubmitButton>
                 <Link className='link' to="/signup">Create an account</Link>
             </div>
         </AuthFormWrapper>
